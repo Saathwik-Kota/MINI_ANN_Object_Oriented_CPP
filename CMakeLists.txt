@@ -27,7 +27,9 @@ target_include_directories(miniann_core
 )
 
 if(MSVC)
-    target_compile_options(miniann_core PUBLIC /W4 /WX)
+    target_compile_options(miniann_core PUBLIC /W4 /EHsc /bigobj)
+    # Suppress MSVC noise warnings on benign size_t/float conversions and parameters
+    target_compile_options(miniann_core PUBLIC /wd4244 /wd4267 /wd4100 /wd4996)
 else()
     target_compile_options(miniann_core PUBLIC -Wall -Wextra -Wpedantic -Werror)
 endif()

@@ -23,8 +23,8 @@ void Matrix::addBiasRow(const std::vector<double>& bias) {
 #ifdef _OPENMP
 #pragma omp parallel for schedule(static) if ((rCount * cCount) >= 8192)
 #endif
-    for (std::size_t i = 0; i < rCount; ++i) {
-        double* row = data_.data() + (i * cCount);
+    for (long long i = 0; i < static_cast<long long>(rCount); ++i) {
+        double* row = data_.data() + (static_cast<std::size_t>(i) * cCount);
         for (std::size_t j = 0; j < cCount; ++j) {
             row[j] += bPtr[j];
         }
@@ -87,9 +87,9 @@ void Matrix::gemm(const Matrix& A, const Matrix& B, Matrix& C,
 #ifdef _OPENMP
 #pragma omp parallel for schedule(static) if (totalOps >= 8192 && M >= 2)
 #endif
-        for (std::size_t i = 0; i < M; ++i) {
-            double* cRow = cData + (i * cCols);
-            const double* aRow = aData + (i * aCols);
+        for (long long i = 0; i < static_cast<long long>(M); ++i) {
+            double* cRow = cData + (static_cast<std::size_t>(i) * cCols);
+            const double* aRow = aData + (static_cast<std::size_t>(i) * aCols);
             for (std::size_t k = 0; k < K; ++k) {
                 const double a_ik = alpha * aRow[k];
                 const double* bRow = bData + (k * bCols);
@@ -103,9 +103,9 @@ void Matrix::gemm(const Matrix& A, const Matrix& B, Matrix& C,
 #ifdef _OPENMP
 #pragma omp parallel for schedule(static) if (totalOps >= 8192)
 #endif
-        for (std::size_t i = 0; i < M; ++i) {
-            const double* aRow = aData + (i * aCols);
-            double* cRow = cData + (i * cCols);
+        for (long long i = 0; i < static_cast<long long>(M); ++i) {
+            const double* aRow = aData + (static_cast<std::size_t>(i) * aCols);
+            double* cRow = cData + (static_cast<std::size_t>(i) * cCols);
             for (std::size_t j = 0; j < N; ++j) {
                 const double* bRow = bData + (j * bCols);
                 double dot = 0.0;
@@ -120,8 +120,8 @@ void Matrix::gemm(const Matrix& A, const Matrix& B, Matrix& C,
 #ifdef _OPENMP
 #pragma omp parallel for schedule(static) if (totalOps >= 8192 && M >= 2)
 #endif
-        for (std::size_t i = 0; i < M; ++i) {
-            double* cRow = cData + (i * cCols);
+        for (long long i = 0; i < static_cast<long long>(M); ++i) {
+            double* cRow = cData + (static_cast<std::size_t>(i) * cCols);
             for (std::size_t k = 0; k < K; ++k) {
                 const double a_ki = alpha * aData[k * aCols + i];
                 const double* bRow = bData + (k * bCols);
@@ -135,8 +135,8 @@ void Matrix::gemm(const Matrix& A, const Matrix& B, Matrix& C,
 #ifdef _OPENMP
 #pragma omp parallel for schedule(static) if (totalOps >= 8192)
 #endif
-        for (std::size_t i = 0; i < M; ++i) {
-            double* cRow = cData + (i * cCols);
+        for (long long i = 0; i < static_cast<long long>(M); ++i) {
+            double* cRow = cData + (static_cast<std::size_t>(i) * cCols);
             for (std::size_t j = 0; j < N; ++j) {
                 const double* bRow = bData + (j * bCols);
                 double dot = 0.0;

@@ -67,7 +67,9 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# IDE & Editor Local Settings (Keep workspace configs in .vscode)
+# IDE & Editor Local Settings
+.vscode/
+.clangd
 .vs/
 *.swp
 *.swo

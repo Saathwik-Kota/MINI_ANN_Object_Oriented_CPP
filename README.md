@@ -513,19 +513,6 @@ MINIANN_V1
 
 ---
 
-## Target Resume Bullet Points
-
-If you are featuring this project on your software engineering resume, use these bullet points:
-
-> **MiniANN — High-Performance Neural Network Engine in Modern C++ (C++17, OpenMP, CMake, CI)**
-> - Engineered a zero-dependency artificial neural network library from scratch in modern C++17, implementing dense layers, multiple activations (ReLU, Sigmoid, Tanh, Softmax), losses (BCE, CCE, MSE), and optimizers (SGD, Momentum, RMSprop, Adam) with L2 weight decay.
-> - Redesigned computational engine from per-neuron heap allocations to a cache-friendly contiguous row-major `Matrix` with $i$-$k$-$j$ GEMM loop tiling and OpenMP parallelism, achieving a **4.94x training speedup** (111,594 samples/sec) and **52.96 GFLOPs** peak GEMM throughput.
-> - Established robust test infrastructure with a 15-test suite including **finite-difference numerical gradient checking** ($\epsilon = 10^{-6}$, relative error $< 10^{-6}$) and automated GitHub Actions CI with AddressSanitizer/UBSan validation (**0 memory leaks**).
-> - Developed an industrial evaluation suite (Precision, Recall, F1, Confusion Matrix) and early stopping, validated on a 10-class classification task achieving **100.0% test accuracy** (1.0000 macro F1) in 4.65 seconds.
-> - Designed a unified production CLI (`miniann_cli`) supporting hyperparameter configuration, model checkpoint serialization (`MINIANN_V1`), train/val/test evaluation pipelines, and low-latency inference.
-
----
-
 ## License
 
 This project is open-source and released under the [MIT License](LICENSE).
