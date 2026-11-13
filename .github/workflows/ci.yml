@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  linux-build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: Debug + Sanitizers (ASan/UBSan)
+            build_type: Debug
+            sanitizers: "ON"
+          - name: Release
+            build_type: Release
+            sanitizers: "OFF"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure CMake (${{ matrix.name }})
+        run: >
+          cmake -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DMINIANN_BUILD_TESTS=ON
+          -DMINIANN_ENABLE_SANITIZERS=${{ matrix.sanitizers }}
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Run CTest
+        run: ctest --test-dir build --output-on-failure
+
+  windows-build-and-test:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure CMake
+        run: cmake -B build -DMINIANN_BUILD_TESTS=ON
+
+      - name: Build (Release)
+        run: cmake --build build --config Release --parallel
+
+      - name: Run CTest (Release)
+        run: ctest --test-dir build -C Release --output-on-failure
+
